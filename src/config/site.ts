@@ -4,6 +4,11 @@ export const siteConfig = {
   logoPath: "/logo.svg",
   placeholderImage: "https://img.freepik.com/free-vector/white-product-podium-with-green-tropical-palm-leaves-golden-round-arch-green-wall_87521-3023.jpg",
   currency: "$",
+  socialLinks: [
+    { name: "Facebook", url: "#" },
+    { name: "Twitter", url: "#" },
+    { name: "Instagram", url: "#" },
+  ],
 } as const;
 
 export type SiteConfig = typeof siteConfig;

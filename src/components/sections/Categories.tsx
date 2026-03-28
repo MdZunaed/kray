@@ -1,12 +1,13 @@
-import Link from 'next/link';
+import { siteConfig } from '@/config/site';
+import CategoryCard from '../ui/CategoryCard';
 
 const categories = [
-  { name: 'Electronics', href: '/categories/electronics' },
-  { name: 'Clothing', href: '/categories/clothing' },
-  { name: 'Books', href: '/categories/books' },
-  { name: 'Home & Kitchen', href: '/categories/home-kitchen' },
-  { name: 'Sports', href: '/categories/sports' },
-  { name: 'Toys', href: '/categories/toys' },
+  { name: 'Electronics', href: '/categories/electronics', imageSrc: siteConfig.placeholderImage },
+  { name: 'Clothing', href: '/categories/clothing', imageSrc: siteConfig.placeholderImage },
+  { name: 'Books', href: '/categories/books', imageSrc: siteConfig.placeholderImage },
+  { name: 'Home & Kitchen', href: '/categories/home-kitchen', imageSrc: siteConfig.placeholderImage },
+  { name: 'Sports', href: '/categories/sports', imageSrc: siteConfig.placeholderImage },
+  { name: 'Toys', href: '/categories/toys', imageSrc: siteConfig.placeholderImage },
 ];
 
 const Categories = () => {
@@ -14,11 +15,9 @@ const Categories = () => {
     <div className="py-12 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-black">Shop by Category</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-8">
           {categories.map((category) => (
-            <Link key={category.name} href={category.href} className="text-center p-4 border rounded-lg shadow-md hover:shadow-lg hover:border-primary-500 transition-shadow">
-              <span className="text-lg font-semibold text-black">{category.name}</span>
-            </Link>
+            <CategoryCard key={category.name} category={category} />
           ))}
         </div>
       </div>
