@@ -8,8 +8,8 @@ export default function Home() {
     <div>
       <Carousel />
       <Categories />
-      <CategorizedProducts categoryName="Featured Electronics" />
-      <CategorizedProducts categoryName="Best of Clothing" />
+      <CategorizedProducts categoryName="Featured Products" />
+      <CategorizedProducts categoryName="Most Popular" />
       <AllProducts />
     </div>
   );

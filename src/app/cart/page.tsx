@@ -72,7 +72,7 @@ export default function CartPage() {
                 <span>Total</span>
                 <span>{siteConfig.currency}{(total + 5).toFixed(2)}</span>
               </div>
-              <Link href="/checkout" className="block text-center w-full mt-4 bg-#74A662 text-primary-500 px-6 py-3 rounded-lg hover:bg-primary-600">
+              <Link href="/checkout" className="block text-center w-full mt-4 bg-primary-500 text-white hover:bg-primary-600 px-6 py-3 rounded-lg hover:bg-primary-600">
                 Checkout
               </Link>
             </div>
