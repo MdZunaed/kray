@@ -5,12 +5,12 @@ import { siteConfig } from '@/config/site';
 import ProductCard from '../ui/ProductCard';
 
 const allProducts = [
-  { id: 1, name: 'Wireless Mouse', category: 'Electronics', price: 25.00, imageSrc: siteConfig.placeholderImage },
-  { id: 2, name: 'Mechanical Keyboard', category: 'Electronics', price: 85.00, imageSrc: siteConfig.placeholderImage },
-  { id: 3, name: 'T-Shirt', category: 'Clothing', price: 15.00, imageSrc: siteConfig.placeholderImage },
-  { id: 4, name: 'Jeans', category: 'Clothing', price: 45.00, imageSrc: siteConfig.placeholderImage },
-  { id: 5, name: 'Novel', category: 'Books', price: 12.00, imageSrc: siteConfig.placeholderImage },
-  { id: 6, name: 'Cookbook', category: 'Books', price: 22.00, imageSrc: siteConfig.placeholderImage },
+  { id: 1, name: 'Wireless Mouse', category: 'Electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, slug: 'wireless-mouse' },
+  { id: 2, name: 'Mechanical Keyboard', category: 'Electronics', price: 85.00, imageSrc: siteConfig.placeholderImage, slug: 'mechanical-keyboard' },
+  { id: 3, name: 'T-Shirt', category: 'Clothing', price: 15.00, imageSrc: siteConfig.placeholderImage, slug: 't-shirt' },
+  { id: 4, name: 'Jeans', category: 'Clothing', price: 45.00, imageSrc: siteConfig.placeholderImage, slug: 'jeans' },
+  { id: 5, name: 'Novel', category: 'Books', price: 12.00, imageSrc: siteConfig.placeholderImage, slug: 'novel' },
+  { id: 6, name: 'Cookbook', category: 'Books', price: 22.00, imageSrc: siteConfig.placeholderImage, slug: 'cookbook' },
 ];
 
 const categories = ['All', 'Electronics', 'Clothing', 'Books'];
@@ -68,7 +68,7 @@ const AllProducts = () => {
               onClick={() => setShowSort(!showSort)}
               className="px-4 py-2 bg-gray-200 text-black rounded-lg"
             >
-              Filter
+              Sort by
             </button>
             {showSort && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10">
@@ -90,7 +90,7 @@ const AllProducts = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {filteredProducts.map(product => (
-            <ProductCard key={product.id} product={{...product, href: `/products/${product.id}`}} />
+            <ProductCard key={product.id} product={{...product, href: `/products/_${product.slug}`}} />
           ))}
         </div>
       </div>
