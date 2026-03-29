@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { siteConfig } from '@/config/site';
 
 const initialCartItems = [
-  { id: 1, name: 'Wireless Mouse', price: 25.00, quantity: 2, imageSrc: siteConfig.placeholderImage },
-  { id: 2, name: 'Mechanical Keyboard', price: 85.00, quantity: 1, imageSrc: siteConfig.placeholderImage },
+  { id: 1, name: 'Wireless Mouse', price: 25.00, quantity: 2, imageSrc: siteConfig.placeholderImage, slug: 'wireless-mouse' },
+  { id: 2, name: 'Mechanical Keyboard', price: 85.00, quantity: 1, imageSrc: siteConfig.placeholderImage, slug: 'mechanical-keyboard' },
 ];
 
 export default function CartPage() {
@@ -34,25 +34,34 @@ export default function CartPage() {
           <div className="md:w-3/4">
             {cartItems.map(item => (
               <div key={item.id} className="flex items-center border-b py-4">
-                <Image src={item.imageSrc} alt={item.name} width={100} height={100} className="rounded-lg" />
-                <div className="ml-4 flex-grow">
-                  <h2 className="text-xl font-bold text-black">{item.name}</h2>
-                  <p className="text-black">{siteConfig.currency}{item.price.toFixed(2)}</p>
+                <div className="flex items-center flex-1">
+                  <Link href={`/products/_${item.slug}`}>
+                    <Image src={item.imageSrc} alt={item.name} width={100} height={100} className="rounded-lg" />
+                  </Link>
+                  <div className="ml-4">
+                    <Link href={`/products/_${item.slug}`}>
+                      <h2 className="text-xl font-bold text-black">{item.name}</h2>
+                    </Link>
+                    <p className="text-black">{siteConfig.currency}{item.price.toFixed(2)}</p>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    type="number"
-                    min="1"
-                    value={item.quantity}
-                    onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                    className="border p-2 rounded w-20 text-center"
-                  />
-                  <button onClick={() => removeItem(item.id)} className="ml-4 text-red-500 hover:text-red-700">
+
+                <div className="w-32 flex justify-center">
+                  <div className="flex items-center border rounded">
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-3 py-1 text-black">-</button>
+                    <span className="px-4 py-1 border-l border-r text-black">{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-3 py-1 text-black">+</button>
+                  </div>
+                </div>
+
+                <div className="w-24 text-right font-bold text-black">
+                  {siteConfig.currency}{(item.price * item.quantity).toFixed(2)}
+                </div>
+
+                <div className="w-24 flex justify-center">
+                  <button onClick={() => removeItem(item.id)} className="text-red-500 hover:text-red-700">
                     Remove
                   </button>
-                </div>
-                <div className="ml-4 font-bold text-black">
-                  {siteConfig.currency}{(item.price * item.quantity).toFixed(2)}
                 </div>
               </div>
             ))}
