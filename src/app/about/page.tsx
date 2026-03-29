@@ -53,7 +53,7 @@ export default function AboutPage() {
           <div className="mt-12 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {teamMembers.map((person) => (
               <div key={person.name} className="pt-6">
-                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div className="flow-root bg-primary-100 shadow50 rounded-lg px-6 pb-8">
                   <div className="-mt-6">
                     <div>
                       <span className="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg">
