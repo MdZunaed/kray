@@ -1,13 +1,14 @@
 import { siteConfig } from '@/config/site';
 import CategoryCard from '../ui/CategoryCard';
+import { routes } from '@/lib/routes';
 
 const categories = [
-  { name: 'Electronics', href: '/categories/electronics', imageSrc: siteConfig.placeholderImage },
-  { name: 'Clothing', href: '/categories/clothing', imageSrc: siteConfig.placeholderImage },
-  { name: 'Books', href: '/categories/books', imageSrc: siteConfig.placeholderImage },
-  { name: 'Home & Kitchen', href: '/categories/home-kitchen', imageSrc: siteConfig.placeholderImage },
-  { name: 'Sports', href: '/categories/sports', imageSrc: siteConfig.placeholderImage },
-  { name: 'Toys', href: '/categories/toys', imageSrc: siteConfig.placeholderImage },
+  { name: 'Electronics', href: routes.category('electronics'), imageSrc: siteConfig.placeholderImage },
+  { name: 'Clothing', href: routes.category('clothing'), imageSrc: siteConfig.placeholderImage },
+  { name: 'Books', href: routes.category('books'), imageSrc: siteConfig.placeholderImage },
+  { name: 'Home & Kitchen', href: routes.category('home-kitchen'), imageSrc: siteConfig.placeholderImage },
+  { name: 'Sports', href: routes.category('sports'), imageSrc: siteConfig.placeholderImage },
+  { name: 'Toys', href: routes.category('toys'), imageSrc: siteConfig.placeholderImage },
 ];
 
 const Categories = () => {

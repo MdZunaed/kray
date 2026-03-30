@@ -1,32 +1,33 @@
 import { siteConfig } from '@/config/site';
 import ProductCard from '../ui/ProductCard';
+import { routes } from '@/lib/routes';
 
 const products = [
   {
     id: 1,
     name: 'Wireless Mouse',
-    href: '/products/wireless-mouse',
+    href: routes.product('wireless-mouse'),
     price: 25.00,
     imageSrc: siteConfig.placeholderImage,
   },
   {
     id: 2,
     name: 'Mechanical Keyboard',
-    href: '/products/mechanical-keyboard',
+    href: routes.product('mechanical-keyboard'),
     price: 85.00,
     imageSrc: siteConfig.placeholderImage,
   },
   {
     id: 3,
     name: '4K Monitor',
-    href: '/products/4k-monitor',
+    href: routes.product('4k-monitor'),
     price: 350.00,
     imageSrc: siteConfig.placeholderImage,
   },
   {
     id: 4,
     name: 'Webcam',
-    href: '/products/webcam',
+    href: routes.product('webcam'),
     price: 55.00,
     imageSrc: siteConfig.placeholderImage,
   },

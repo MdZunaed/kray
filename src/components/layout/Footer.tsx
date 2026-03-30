@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
+import { routes } from '@/lib/routes';
 
 const Footer = () => {
   return (
@@ -15,10 +16,10 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Information</h3>
             <ul className="space-y-2">
-              <li><Link href="/about" className="text-gray-300 hover:text-primary-500">About</Link></li>
-              <li><Link href="/contact" className="text-gray-300 hover:text-primary-500">Contact us</Link></li>
-              <li><Link href="/privacy-policy" className="text-gray-300 hover:text-primary-500">Privacy Policy</Link></li>
-              <li><Link href="/terms-and-conditions" className="text-gray-300 hover:text-primary-500">Terms & Condition</Link></li>
+              <li><Link href={routes.about} className="text-gray-300 hover:text-primary-500">About</Link></li>
+              <li><Link href={routes.contact} className="text-gray-300 hover:text-primary-500">Contact us</Link></li>
+              <li><Link href={routes.privacyPolicy} className="text-gray-300 hover:text-primary-500">Privacy Policy</Link></li>
+              <li><Link href={routes.termsAndConditions} className="text-gray-300 hover:text-primary-500">Terms & Condition</Link></li>
             </ul>
           </div>
           <div>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import ProductCard from '@/components/ui/ProductCard';
 import { siteConfig } from '@/config/site';
+import { routes } from '@/lib/routes';
 
 const categories = [
   { name: 'All', slug: 'all' },
@@ -15,12 +16,12 @@ const categories = [
 ];
 
 const allProducts = [
-  { id: 1, name: 'Wireless Mouse', category: 'electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, href: '/products/1' },
-  { id: 2, name: 'Mechanical Keyboard', category: 'electronics', price: 85.00, imageSrc: siteConfig.placeholderImage, href: '/products/2' },
-  { id: 3, name: 'T-Shirt', category: 'clothing', price: 15.00, imageSrc: siteConfig.placeholderImage, href: '/products/3' },
-  { id: 4, name: 'Jeans', category: 'clothing', price: 45.00, imageSrc: siteConfig.placeholderImage, href: '/products/4' },
-  { id: 5, name: 'Novel', category: 'books', price: 12.00, imageSrc: siteConfig.placeholderImage, href: '/products/5' },
-  { id: 6, name: 'Cookbook', category: 'books', price: 22.00, imageSrc: siteConfig.placeholderImage, href: '/products/6' },
+  { id: 1, name: 'Wireless Mouse', category: 'electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, href: routes.product('wireless-mouse') },
+  { id: 2, name: 'Mechanical Keyboard', category: 'electronics', price: 85.00, imageSrc: siteConfig.placeholderImage, href: routes.product('mechanical-keyboard') },
+  { id: 3, name: 'T-Shirt', category: 'clothing', price: 15.00, imageSrc: siteConfig.placeholderImage, href: routes.product('t-shirt') },
+  { id: 4, name: 'Jeans', category: 'clothing', price: 45.00, imageSrc: siteConfig.placeholderImage, href: routes.product('jeans') },
+  { id: 5, name: 'Novel', category: 'books', price: 12.00, imageSrc: siteConfig.placeholderImage, href: routes.product('novel') },
+  { id: 6, name: 'Cookbook', category: 'books', price: 22.00, imageSrc: siteConfig.placeholderImage, href: routes.product('cookbook') },
 ];
 
 export default function CategoriesPage() {
