@@ -3,18 +3,20 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { siteConfig } from '@/config/site';
+import { getParamSlug } from '@/lib/routes';
 
 const products = [
-    { id: 1, name: 'Wireless Mouse', category: 'Electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, description: 'A comfortable and responsive wireless mouse.' },
-    { id: 2, name: 'Mechanical Keyboard', category: 'Electronics', price: 85.00, imageSrc: siteConfig.placeholderImage, description: 'A durable and tactile mechanical keyboard.' },
-    { id: 3, name: 'T-Shirt', category: 'Clothing', price: 15.00, imageSrc: siteConfig.placeholderImage, description: 'A soft and comfortable cotton t-shirt.' },
+    { id: 1, slug: 'wireless-mouse', name: 'Wireless Mouse', category: 'Electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, description: 'A comfortable and responsive wireless mouse.' },
+    { id: 2, slug: 'mechanical-keyboard', name: 'Mechanical Keyboard', category: 'Electronics', price: 85.00, imageSrc: siteConfig.placeholderImage, description: 'A durable and tactile mechanical keyboard.' },
+    { id: 3, slug: 't-shirt', name: 'T-Shirt', category: 'Clothing', price: 15.00, imageSrc: siteConfig.placeholderImage, description: 'A soft and comfortable cotton t-shirt.' },
 ];
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
     const [quantity, setQuantity] = useState(1);
+    const productSlug = getParamSlug(params.slug);
 
     // In a real app, you'd fetch the product by slug
-    const product = products.find(p => p.id === parseInt(params.slug));
+    const product = products.find((p) => p.slug === productSlug);
 
     if (!product) {
         return <div>Product not found</div>;

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
+import { routes } from '@/lib/routes';
 
 const initialCartItems = [
   { id: 1, name: 'Wireless Mouse', price: 25.00, quantity: 2, imageSrc: siteConfig.placeholderImage, slug: 'wireless-mouse' },
@@ -35,11 +36,11 @@ export default function CartPage() {
             {cartItems.map(item => (
               <div key={item.id} className="flex items-center border-b py-4">
                 <div className="flex items-center flex-1">
-                  <Link href={`/products/_${item.slug}`}>
+                  <Link href={routes.product(item.slug)}>
                     <Image src={item.imageSrc} alt={item.name} width={100} height={100} className="rounded-lg" />
                   </Link>
                   <div className="ml-4">
-                    <Link href={`/products/_${item.slug}`}>
+                    <Link href={routes.product(item.slug)}>
                       <h2 className="text-xl font-bold text-black">{item.name}</h2>
                     </Link>
                     <p className="text-black">{siteConfig.currency}{item.price.toFixed(2)}</p>
@@ -81,7 +82,7 @@ export default function CartPage() {
                 <span>Total</span>
                 <span>{siteConfig.currency}{(total + 5).toFixed(2)}</span>
               </div>
-              <Link href="/checkout" className="block text-center w-full mt-4 bg-primary-500 text-white hover:bg-primary-600 px-6 py-3 rounded-lg hover:bg-primary-600">
+              <Link href={routes.checkout} className="block text-center w-full mt-4 bg-primary-500 text-white hover:bg-primary-600 px-6 py-3 rounded-lg hover:bg-primary-600">
                 Checkout
               </Link>
             </div>

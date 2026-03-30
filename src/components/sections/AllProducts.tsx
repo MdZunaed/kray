@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { siteConfig } from '@/config/site';
 import ProductCard from '../ui/ProductCard';
+import { routes } from '@/lib/routes';
 
 const allProducts = [
   { id: 1, name: 'Wireless Mouse', category: 'Electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, slug: 'wireless-mouse' },
@@ -90,7 +91,7 @@ const AllProducts = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {filteredProducts.map(product => (
-            <ProductCard key={product.id} product={{...product, href: `/products/_${product.slug}`}} />
+            <ProductCard key={product.id} product={{...product, href: routes.product(product.slug)}} />
           ))}
         </div>
       </div>
