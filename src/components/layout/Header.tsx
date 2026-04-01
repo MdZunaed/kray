@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Menu, MapPin, ShoppingCart, TicketPercent, User, Wallet } from 'lucide-react';
+import { Menu, MapPin, Search, ShoppingCart, TicketPercent, User, Wallet } from 'lucide-react';
 import { routes } from '@/lib/routes';
 
 const Header = () => {
@@ -38,6 +38,9 @@ const Header = () => {
           <Link href={routes.about} className="text-black hover:text-primary-500">About</Link>
         </nav>
         <div className="flex items-center space-x-4">
+          <Link href={routes.search} className="text-black hover:text-primary-500" aria-label="Search products">
+            <Search className="h-6 w-6" />
+          </Link>
           <Link href={routes.cart} className="relative">
             <ShoppingCart className="h-6 w-6 text-black" />
             <span className="absolute -top-2 -right-2 bg-primary-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>

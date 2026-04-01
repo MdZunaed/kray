@@ -1,15 +1,14 @@
 const normalizeSlug = (slug: string) => slug.replace(/^_+/, "");
 
-const withUnderscoreSlug = (slug: string) => `_${normalizeSlug(slug)}`;
-
 export const routes = {
   home: "/",
+  search: "/search",
   about: "/about",
   contact: "/contact",
   products: "/products",
-  product: (slug: string) => `/products/${withUnderscoreSlug(slug)}`,
+  product: (slug: string) => `/products/${normalizeSlug(slug)}`,
   categories: "/categories",
-  category: (slug: string) => `/categories/${withUnderscoreSlug(slug)}`,
+  category: (slug: string) => `/categories/${normalizeSlug(slug)}`,
   cart: "/cart",
   checkout: "/checkout",
   register: "/register",

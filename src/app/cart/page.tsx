@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
 import { routes } from '@/lib/routes';
+import QuantityStepper from '@/components/ui/QuantityStepper';
 
 const initialCartItems = [
   { id: 1, name: 'Wireless Mouse', price: 25.00, quantity: 2, imageSrc: siteConfig.placeholderImage, slug: 'wireless-mouse' },
@@ -25,6 +26,16 @@ export default function CartPage() {
     setCartItems(cartItems.filter(item => item.id !== id));
   };
 
+  const checkoutItems = cartItems.map((item) => ({
+    slug: item.slug,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+    imageSrc: item.imageSrc,
+  }));
+
+  const checkoutHref = `${routes.checkout}?source=cart&items=${encodeURIComponent(JSON.stringify(checkoutItems))}`;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-black">Your Cart</h1>
@@ -34,7 +45,7 @@ export default function CartPage() {
         <div className="flex flex-col md:flex-row">
           <div className="md:w-3/4">
             {cartItems.map(item => (
-              <div key={item.id} className="flex items-center border-b py-4">
+              <div key={item.id} className="flex items-center border-b border-primary-200 py-4">
                 <div className="flex items-center flex-1">
                   <Link href={routes.product(item.slug)}>
                     <Image src={item.imageSrc} alt={item.name} width={100} height={100} className="rounded-lg" />
@@ -48,11 +59,11 @@ export default function CartPage() {
                 </div>
 
                 <div className="w-32 flex justify-center">
-                  <div className="flex items-center border rounded">
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-3 py-1 text-black">-</button>
-                    <span className="px-4 py-1 border-l border-r text-black">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-3 py-1 text-black">+</button>
-                  </div>
+                  <QuantityStepper
+                    value={item.quantity}
+                    onDecrease={() => updateQuantity(item.id, item.quantity - 1)}
+                    onIncrease={() => updateQuantity(item.id, item.quantity + 1)}
+                  />
                 </div>
 
                 <div className="w-24 text-right font-bold text-black">
@@ -82,7 +93,7 @@ export default function CartPage() {
                 <span>Total</span>
                 <span>{siteConfig.currency}{(total + 5).toFixed(2)}</span>
               </div>
-              <Link href={routes.checkout} className="block text-center w-full mt-4 bg-primary-500 text-white hover:bg-primary-600 px-6 py-3 rounded-lg hover:bg-primary-600">
+              <Link href={checkoutHref} className="block text-center w-full mt-4 bg-primary-500 text-white hover:bg-primary-600 px-6 py-3 rounded-lg hover:bg-primary-600">
                 Checkout
               </Link>
             </div>
