@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CreditCard, MapPin, ShieldCheck, Truck } from "lucide-react";
@@ -54,7 +54,7 @@ const catalog: Record<string, Omit<CheckoutItem, "quantity">> = {
   },
 };
 
-export default function CheckoutPage() {
+function CheckoutPageContent() {
   const searchParams = useSearchParams();
   const [placingOrder, setPlacingOrder] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -205,5 +205,22 @@ export default function CheckoutPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="bg-gradient-to-b from-primary-50 to-white">
+          <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold text-primary-900">Checkout</h1>
+            <p className="mt-2 text-gray-600">Loading checkout details...</p>
+          </div>
+        </div>
+      }
+    >
+      <CheckoutPageContent />
+    </Suspense>
   );
 }
