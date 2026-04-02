@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import ProductCard from "@/components/ui/ProductCard";
@@ -18,7 +18,7 @@ const allProducts = [
   { id: 8, name: "Webcam", category: "electronics", price: 55.0, imageSrc: siteConfig.placeholderImage, slug: "webcam" },
 ];
 
-export default function SearchPage() {
+function SearchPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") ?? "";
@@ -87,5 +87,22 @@ export default function SearchPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="bg-gradient-to-b from-primary-50 to-white">
+          <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold text-primary-900">Search Products</h1>
+            <p className="mt-2 text-gray-600">Loading search...</p>
+          </div>
+        </div>
+      }
+    >
+      <SearchPageContent />
+    </Suspense>
   );
 }
