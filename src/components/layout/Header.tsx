@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Menu, MapPin, Search, ShoppingCart, TicketPercent, User, Wallet } from 'lucide-react';
+import { useCart } from '@/features/cart/providers/CartProvider';
 import { routes } from '@/lib/routes';
 
 const Header = () => {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
+  const { totalItems } = useCart();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
@@ -43,7 +45,7 @@ const Header = () => {
           </Link>
           <Link href={routes.cart} className="relative">
             <ShoppingCart className="h-6 w-6 text-black" />
-            <span className="absolute -top-2 -right-2 bg-primary-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            <span className="absolute -top-2 -right-2 bg-primary-500 text-white text-xs rounded-full h-5 min-w-5 px-1 flex items-center justify-center">{totalItems}</span>
           </Link>
           <div className="hidden items-center gap-2 sm:flex">
             <Link

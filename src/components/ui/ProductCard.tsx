@@ -2,6 +2,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
+import { useCart } from '@/features/cart/providers/CartProvider';
+import { getProductSlugFromHref } from '@/features/catalog/utils/product';
+import { useToast } from '@/features/notifications/providers/ToastProvider';
 import { useState } from 'react';
 import QuantityStepper from './QuantityStepper';
 
@@ -9,12 +12,17 @@ export type Product = {
   id: number;
   name: string;
   href: string;
+  slug?: string;
   price: number;
   imageSrc: string;
 };
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [quantity, setQuantity] = useState(1);
+  const { addItem } = useCart();
+  const { showToast } = useToast();
+
+  const productSlug = product.slug ?? getProductSlugFromHref(product.href);
   return (
     <div key={product.id} className="group relative flex flex-col rounded-xl border border-primary-100 bg-white p-3 shadow-sm">
       <Link href={product.href} className="hover:text-primary-500">
@@ -40,11 +48,23 @@ const ProductCard = ({ product }: { product: Product }) => {
             value={quantity}
             onDecrease={() => setQuantity((q) => Math.max(1, q - 1))}
             onIncrease={() => setQuantity((q) => q + 1)}
-            className="w-fit"
+            className="!hidden w-fit sm:!inline-flex"
           />
           <button
             onClick={() => {
-              console.log('Add to cart');
+              addItem({
+                id: product.id,
+                slug: productSlug,
+                href: product.href,
+                name: product.name,
+                price: product.price,
+                imageSrc: product.imageSrc,
+              }, quantity);
+              showToast({
+                title: `${product.name} added to cart`,
+                description: quantity > 1 ? `${quantity} items are ready in your cart.` : "You can review it anytime from the cart page.",
+                status: "success",
+              });
             }}
             className="w-full rounded-md bg-primary-500 px-3 py-2 text-xs font-medium text-white hover:bg-primary-600 sm:w-auto"
           >

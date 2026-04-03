@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { ShieldCheck, ShoppingCart, Star, Truck } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
 import { siteConfig } from '@/config/site';
+import { useCart } from '@/features/cart/providers/CartProvider';
+import { useToast } from '@/features/notifications/providers/ToastProvider';
 import { getParamSlug, routes } from '@/lib/routes';
 import QuantityStepper from '@/components/ui/QuantityStepper';
 
@@ -17,6 +19,8 @@ const products = [
 
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
     const [quantity, setQuantity] = useState(1);
+    const { addItem } = useCart();
+    const { showToast } = useToast();
     const { slug } = use(params);
     const productSlug = getParamSlug(slug);
 
@@ -99,7 +103,24 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                         </div>
 
                         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                            <button className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 font-medium text-white hover:bg-primary-700">
+                            <button
+                                onClick={() => {
+                                    addItem({
+                                        id: product.id,
+                                        slug: product.slug,
+                                        href: routes.product(product.slug),
+                                        name: product.name,
+                                        price: product.price,
+                                        imageSrc: product.imageSrc,
+                                    }, quantity);
+                                    showToast({
+                                        title: `${product.name} added to cart`,
+                                        description: quantity > 1 ? `${quantity} items are ready in your cart.` : "You can continue shopping or head to checkout later.",
+                                        status: "success",
+                                    });
+                                }}
+                                className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 font-medium text-white hover:bg-primary-700"
+                            >
                                 <ShoppingCart className="h-4 w-4" />
                                 Add to Cart
                             </button>
@@ -133,6 +154,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                                 product={{
                                     id: related.id,
                                     name: related.name,
+                                    slug: related.slug,
                                     href: routes.product(related.slug),
                                     price: related.price,
                                     imageSrc: related.imageSrc,

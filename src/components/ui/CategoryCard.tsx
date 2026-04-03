@@ -9,8 +9,12 @@ export type Category = {
 
 const CategoryCard = ({ category }: { category: Category }) => {
   return (
-    <Link key={category.name} href={category.href} className="group text-center p-4 rounded-lg border border-transparent hover:border-primary-500 transition-shadow">
-      <div className="w-20 h-20 mx-auto bg-gray-200 rounded-full overflow-hidden group-hover:opacity-75">
+    <Link
+      key={category.name}
+      href={category.href}
+      className="group flex min-h-40 flex-col items-center rounded-2xl border border-primary-100 bg-white px-3 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md"
+    >
+      <div className="h-20 w-20 overflow-hidden rounded-full bg-gray-200 group-hover:opacity-75">
         <Image
           src={category.imageSrc}
           alt={category.name}
@@ -19,7 +23,7 @@ const CategoryCard = ({ category }: { category: Category }) => {
           height={80}
         />
       </div>
-      <h3 className="mt-2 text-base font-semibold text-black">{category.name}</h3>
+      <h3 className="mt-3 line-clamp-2 text-sm font-semibold text-black sm:text-base">{category.name}</h3>
     </Link>
   );
 };
