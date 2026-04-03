@@ -20,15 +20,23 @@ const Categories = () => {
           <h2 className="text-3xl font-bold text-black">Shop by Category</h2>
           <Link
             href={routes.categories}
-            className="rounded-lg border border-primary-300 px-4 py-2 text-sm font-medium text-primary-700 hover:bg-primary-50"
+            className="hidden rounded-lg border border-primary-300 px-4 py-2 text-sm font-medium text-primary-700 hover:bg-primary-50 sm:inline-flex"
           >
             View All
           </Link>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-8">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-6 xl:grid-cols-6">
           {categories.map((category) => (
             <CategoryCard key={category.name} category={category} />
           ))}
+        </div>
+        <div className="mt-4 flex justify-center sm:hidden">
+          <Link
+            href={routes.categories}
+            className="inline-flex rounded-lg border border-primary-300 px-3 py-1.5 text-sm font-medium text-primary-700 hover:bg-primary-50"
+          >
+            View All
+          </Link>
         </div>
       </div>
     </div>
