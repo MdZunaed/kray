@@ -34,6 +34,11 @@ export async function getProductsByCategory(slug: string): Promise<CatalogProduc
   return products.filter((product) => product.categorySlug === slug);
 }
 
+export async function getCategoryBySlug(slug: string): Promise<CatalogCategory | null> {
+  const categories = await getAllCategories();
+  return categories.find((category) => category.slug === slug) ?? null;
+}
+
 export async function getRelatedProducts(slug: string, limit = 5): Promise<CatalogProduct[]> {
   const products = await getAllProducts();
   const currentProduct = products.find((product) => product.slug === slug);

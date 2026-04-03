@@ -44,8 +44,8 @@ const Carousel = () => {
             index === currentSlide ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <Image src="https://img.freepik.com/free-vector/white-product-podium-with-green-tropical-palm-leaves-golden-round-arch-green-wall_87521-3023.jpg" alt={slide.alt} layout="fill" objectFit="cover" className="z-0" />
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white z-10">
+          <Image src={slide.src} alt={slide.alt} fill className="z-0 object-cover" />
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/50 text-white">
             <h2 className="text-4xl font-bold">{slide.title}</h2>
             <p className="mt-2 text-lg">{slide.description}</p>
           </div>

@@ -33,6 +33,10 @@ const mapProduct = (product: {
 });
 
 export async function getAllProducts(): Promise<CatalogProduct[]> {
+  if (!process.env.DATABASE_URL) {
+    return sampleProducts;
+  }
+
   try {
     const products = await prisma.product.findMany({
       where: { status: "ACTIVE" },

@@ -23,6 +23,10 @@ const mapCategory = (category: {
 });
 
 export async function getAllCategories(): Promise<CatalogCategory[]> {
+  if (!process.env.DATABASE_URL) {
+    return sampleCategories;
+  }
+
   try {
     const categories = await prisma.category.findMany({
       where: { isActive: true },
