@@ -24,9 +24,9 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   const productSlug = product.slug ?? getProductSlugFromHref(product.href);
   return (
-    <div key={product.id} className="group relative flex flex-col rounded-xl border border-primary-100 bg-white p-3 shadow-sm">
+    <div key={product.id} className="group relative flex flex-col rounded-xl border border-border bg-surface p-3 shadow-sm">
       <Link href={product.href} className="hover:text-primary-500">
-        <div className="aspect-square md:aspect-[4/3] xl:aspect-[5/4] w-full overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-90">
+        <div className="aspect-square md:aspect-[4/3] xl:aspect-[5/4] w-full overflow-hidden rounded-lg bg-surface-muted group-hover:opacity-90">
           <Image
             src={product.imageSrc}
             alt={product.name}
@@ -36,7 +36,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           />
         </div>
         <div className="mt-3 min-h-14">
-          <h3 className="text-sm font-medium text-black">
+          <h3 className="text-sm font-medium text-heading">
             {product.name}
           </h3>
           <p className="mt-1 text-base font-semibold text-primary-800">{siteConfig.currency}{product.price.toFixed(2)}</p>
