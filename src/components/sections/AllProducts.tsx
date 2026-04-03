@@ -1,26 +1,19 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { siteConfig } from '@/config/site';
+import type { CatalogCategory, CatalogProduct } from '@/features/catalog/types/catalog';
 import ProductCard from '../ui/ProductCard';
-import { routes } from '@/lib/routes';
 import Link from 'next/link';
-
-const allProducts = [
-  { id: 1, name: 'Wireless Mouse', category: 'Electronics', price: 25.00, imageSrc: siteConfig.placeholderImage, slug: 'wireless-mouse' },
-  { id: 2, name: 'Mechanical Keyboard', category: 'Electronics', price: 85.00, imageSrc: siteConfig.placeholderImage, slug: 'mechanical-keyboard' },
-  { id: 3, name: 'T-Shirt', category: 'Clothing', price: 15.00, imageSrc: siteConfig.placeholderImage, slug: 't-shirt' },
-  { id: 4, name: 'Jeans', category: 'Clothing', price: 45.00, imageSrc: siteConfig.placeholderImage, slug: 'jeans' },
-  { id: 5, name: 'Novel', category: 'Books', price: 12.00, imageSrc: siteConfig.placeholderImage, slug: 'novel' },
-  { id: 6, name: 'Cookbook', category: 'Books', price: 22.00, imageSrc: siteConfig.placeholderImage, slug: 'cookbook' },
-];
-
-const categories = ['All', 'Electronics', 'Clothing', 'Books'];
+import { routes } from '@/lib/routes';
 
 const AllProducts = ({
+  products,
+  categories,
   showViewAllButton = true,
   maxProducts = 6,
 }: {
+  products: CatalogProduct[];
+  categories: CatalogCategory[];
   showViewAllButton?: boolean;
   maxProducts?: number | null;
 }) => {
@@ -42,7 +35,9 @@ const AllProducts = ({
     };
   }, []);
 
-  const filteredProducts = allProducts.filter(product => 
+  const filterOptions = ['All', ...categories.map((category) => category.name)];
+
+  const filteredProducts = products.filter(product =>
     filter === 'All' || product.category === filter
   ).sort((a, b) => {
     if (sort === 'price-asc') {
@@ -61,7 +56,7 @@ const AllProducts = ({
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-left">All Products</h2>
           <div className="mt-4 flex flex-wrap gap-2">
-            {categories.map(category => (
+            {filterOptions.map(category => (
               <button
                 key={category}
                 onClick={() => setFilter(category)}
@@ -104,7 +99,16 @@ const AllProducts = ({
 
             return (
               <div key={product.id} className={hideOnMobile ? 'hidden md:block' : ''}>
-                <ProductCard product={{...product, href: routes.product(product.slug)}} />
+                <ProductCard
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    slug: product.slug,
+                    href: product.href,
+                    price: product.price,
+                    imageSrc: product.imageSrc,
+                  }}
+                />
               </div>
             );
           })}

@@ -1,9 +1,12 @@
 import AllProducts from '@/components/sections/AllProducts';
+import { getCatalogPageData } from '@/features/catalog/services/catalog.service';
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const { categories, products } = await getCatalogPageData();
+
   return (
     <div>
-      <AllProducts showViewAllButton={false} maxProducts={null} />
+      <AllProducts products={products} categories={categories} showViewAllButton={false} maxProducts={null} />
     </div>
   );
 }

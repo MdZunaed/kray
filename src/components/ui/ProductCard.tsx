@@ -9,7 +9,7 @@ import { useState } from 'react';
 import QuantityStepper from './QuantityStepper';
 
 export type Product = {
-  id: number;
+  id: string | number;
   name: string;
   href: string;
   slug?: string;

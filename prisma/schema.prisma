@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
@@ -12,52 +13,273 @@ enum Role {
   ADMIN
 }
 
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum CartStatus {
+  ACTIVE
+  CONVERTED
+  ABANDONED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH_ON_DELIVERY
+  CARD
+  BANK_TRANSFER
+  MANUAL
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum AddressType {
+  HOME
+  OFFICE
+  OTHER
+}
+
 model User {
-  id        String  @id @default(cuid())
-  email     String  @unique
-  password  String
-  role      Role    @default(USER)
-  orders    Order[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Category {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  products Product[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Product {
-  id          String   @id @default(cuid())
-  name        String
-  price       Decimal  @db.Decimal(10, 2)
-  image       String
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  orders      Order[]
+  id             String    @id @default(cuid())
+  email          String    @unique
+  password       String
+  firstName      String?
+  lastName       String?
+  phone          String?
+  role           Role      @default(USER)
+  addresses      Address[]
+  carts          Cart[]
+  orders         Order[]
+  defaultAddress String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([categoryId])
-  @@index([name])
+  @@index([role])
 }
 
-model Order {
-  id        String    @id @default(cuid())
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products  Product[]
-  status    String    @default("PENDING")
-  total     Decimal   @db.Decimal(10, 2) @default(0)
+model Address {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label       String?
+  type        AddressType @default(HOME)
+  recipient   String
+  phone       String?
+  line1       String
+  line2       String?
+  city        String
+  state       String?
+  postalCode  String?
+  countryCode String      @default("BD")
+  isDefault   Boolean     @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String?
+  isActive    Boolean    @default(true)
+  sortOrder   Int        @default(0)
+  products    Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, sortOrder])
+  @@unique([name, slug])
+}
+
+model Product {
+  id               String         @id @default(cuid())
+  name             String
+  slug             String         @unique
+  sku              String?        @unique
+  shortDescription String?
+  description      String?
+  price            Decimal        @db.Decimal(10, 2)
+  compareAtPrice   Decimal?       @db.Decimal(10, 2)
+  costPrice        Decimal?       @db.Decimal(10, 2)
+  currencyCode     String         @default("USD")
+  status           ProductStatus  @default(DRAFT)
+  isFeatured       Boolean        @default(false)
+  stock            Int            @default(0)
+  thumbnail        String?
+  categoryId       String
+  category         Category       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  images           ProductImage[]
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([status, isFeatured])
+  @@index([name])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  sortOrder Int     @default(0)
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId, sortOrder])
+}
+
+model Cart {
+  id           String     @id @default(cuid())
+  userId       String?
+  user         User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sessionId    String?    @unique
+  status       CartStatus @default(ACTIVE)
+  currencyCode String     @default("USD")
+  items        CartItem[]
+  completedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, status])
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity  Int     @default(1)
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId])
+  @@index([productId])
+}
+
+model Order {
+  id                  String        @id @default(cuid())
+  orderNumber         String        @unique
+  userId              String?
+  user                User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status              OrderStatus   @default(PENDING)
+  paymentMethod       PaymentMethod @default(CASH_ON_DELIVERY)
+  paymentStatus       PaymentStatus @default(PENDING)
+  currencyCode        String        @default("USD")
+  subtotal            Decimal       @db.Decimal(10, 2) @default(0)
+  discountTotal       Decimal       @db.Decimal(10, 2) @default(0)
+  shippingTotal       Decimal       @db.Decimal(10, 2) @default(0)
+  taxTotal            Decimal       @db.Decimal(10, 2) @default(0)
+  grandTotal          Decimal       @db.Decimal(10, 2) @default(0)
+  customerEmail       String?
+  customerPhone       String?
+  shippingRecipient   String?
+  shippingPhone       String?
+  shippingLine1       String?
+  shippingLine2       String?
+  shippingCity        String?
+  shippingState       String?
+  shippingPostalCode  String?
+  shippingCountryCode String?
+  notes               String?
+  items               OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status, paymentStatus])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productName String
+  productSlug String?
+  sku         String?
+  quantity    Int
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  lineTotal   Decimal  @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Coupon {
+  id                String   @id @default(cuid())
+  code              String   @unique
+  description       String?
+  discountType      String
+  discountValue     Decimal  @db.Decimal(10, 2)
+  minimumOrderValue Decimal? @db.Decimal(10, 2)
+  startsAt          DateTime?
+  endsAt            DateTime?
+  usageLimit        Int?
+  isActive          Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([code, isActive])
+}
+
+model StoreSettings {
+  id              String @id @default(cuid())
+  storeCode       String @unique
+  storeName       String
+  currencyCode    String @default("USD")
+  currencySymbol  String @default("$")
+  supportEmail    String?
+  supportPhone    String?
+  logoUrl         String?
+  faviconUrl      String?
+  primaryColor    String?
+  accentColor     String?
+  metaTitle       String?
+  metaDescription String?
+  socialFacebook  String?
+  socialInstagram String?
+  socialTwitter   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
