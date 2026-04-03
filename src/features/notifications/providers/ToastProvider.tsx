@@ -28,7 +28,7 @@ const ToastContext = createContext<ToastContextValue | null>(null);
 
 const toastStyles: Record<ToastStatus, { container: string; icon: string; Icon: typeof Bell }> = {
   general: {
-    container: "border-primary-200 bg-white text-primary-950",
+    container: "border-border bg-surface text-heading",
     icon: "bg-primary-100 text-primary-700",
     Icon: Bell,
   },
@@ -107,7 +107,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   onClick={() => dismissToast(toast.id)}
-                  className="rounded-full p-1 opacity-60 transition hover:bg-black/5 hover:opacity-100"
+                  className="rounded-full p-1 opacity-60 transition hover:bg-foreground/5 hover:opacity-100"
                   aria-label="Dismiss notification"
                 >
                   <X className="h-4 w-4" />

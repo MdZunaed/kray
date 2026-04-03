@@ -1,18 +1,9 @@
-import { siteConfig } from '@/config/site';
+import type { CatalogCategory } from '@/features/catalog/types/catalog';
 import CategoryCard from '../ui/CategoryCard';
 import { routes } from '@/lib/routes';
 import Link from 'next/link';
 
-const categories = [
-  { name: 'Electronics', href: routes.category('electronics'), imageSrc: siteConfig.placeholderImage },
-  { name: 'Clothing', href: routes.category('clothing'), imageSrc: siteConfig.placeholderImage },
-  { name: 'Books', href: routes.category('books'), imageSrc: siteConfig.placeholderImage },
-  { name: 'Home & Kitchen', href: routes.category('home-kitchen'), imageSrc: siteConfig.placeholderImage },
-  { name: 'Sports', href: routes.category('sports'), imageSrc: siteConfig.placeholderImage },
-  { name: 'Toys', href: routes.category('toys'), imageSrc: siteConfig.placeholderImage },
-];
-
-const Categories = () => {
+const Categories = ({ categories }: { categories: CatalogCategory[] }) => {
   return (
     <div className="py-12 bg-white">
       <div className="container mx-auto px-4">
@@ -27,7 +18,14 @@ const Categories = () => {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-6 xl:grid-cols-6">
           {categories.map((category) => (
-            <CategoryCard key={category.name} category={category} />
+            <CategoryCard
+              key={category.id}
+              category={{
+                name: category.name,
+                href: routes.category(category.slug),
+                imageSrc: category.imageSrc,
+              }}
+            />
           ))}
         </div>
         <div className="mt-4 flex justify-center sm:hidden">

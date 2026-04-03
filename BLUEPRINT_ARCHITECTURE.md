@@ -115,6 +115,21 @@ The direction is:
 - services call repositories
 - repositories use Prisma
 
+Practical rule for this blueprint:
+
+- Next.js server-rendered web pages may call services directly on the server
+- mobile apps, admin panels, and external consumers should use API routes
+- API routes must reuse the same service/repository layer rather than duplicating business logic
+- the database schema is never the public contract; services and APIs are
+
+This means the current preferred flow is:
+
+- web server component -> service -> repository -> Prisma
+
+And the future extensible flow is:
+
+- API consumer -> route handler -> service -> repository -> Prisma
+
 ## Recommended Folder Direction
 
 The repo does not need a massive refactor immediately, but it should gradually move toward this structure:
@@ -153,6 +168,8 @@ Notes:
 - `repositories/` contains data access boundaries
 - `components/` should stay mostly presentational
 - route handlers should be thin
+- do not force internal web requests to your own API when a server component can call the service layer directly
+- add API routes when there is a real external consumer or a strong contract need
 
 Current direction already adopted in this repo:
 

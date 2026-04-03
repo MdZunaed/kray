@@ -1,40 +1,15 @@
-import { siteConfig } from '@/config/site';
+import type { CatalogProduct } from '@/features/catalog/types/catalog';
 import ProductCard from '../ui/ProductCard';
 import { routes } from '@/lib/routes';
 import Link from 'next/link';
 
-const products = [
-  {
-    id: 1,
-    name: 'Wireless Mouse',
-    href: routes.product('wireless-mouse'),
-    price: 25.00,
-    imageSrc: siteConfig.placeholderImage,
-  },
-  {
-    id: 2,
-    name: 'Mechanical Keyboard',
-    href: routes.product('mechanical-keyboard'),
-    price: 85.00,
-    imageSrc: siteConfig.placeholderImage,
-  },
-  {
-    id: 3,
-    name: '4K Monitor',
-    href: routes.product('4k-monitor'),
-    price: 350.00,
-    imageSrc: siteConfig.placeholderImage,
-  },
-  {
-    id: 4,
-    name: 'Webcam',
-    href: routes.product('webcam'),
-    price: 55.00,
-    imageSrc: siteConfig.placeholderImage,
-  },
-];
-
-const CategorizedProducts = ({ categoryName }: { categoryName: string }) => {
+const CategorizedProducts = ({
+  categoryName,
+  products,
+}: {
+  categoryName: string;
+  products: CatalogProduct[];
+}) => {
   return (
     <div className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -49,7 +24,17 @@ const CategorizedProducts = ({ categoryName }: { categoryName: string }) => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={{
+                id: product.id,
+                name: product.name,
+                slug: product.slug,
+                href: product.href,
+                price: product.price,
+                imageSrc: product.imageSrc,
+              }}
+            />
           ))}
         </div>
       </div>

@@ -12,9 +12,9 @@ const CategoryCard = ({ category }: { category: Category }) => {
     <Link
       key={category.name}
       href={category.href}
-      className="group flex min-h-40 flex-col items-center rounded-2xl border border-primary-100 bg-white px-3 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md"
+      className="group flex min-h-40 flex-col items-center rounded-2xl border border-border bg-surface px-3 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md"
     >
-      <div className="h-20 w-20 overflow-hidden rounded-full bg-gray-200 group-hover:opacity-75">
+      <div className="h-20 w-20 overflow-hidden rounded-full bg-surface-muted group-hover:opacity-75">
         <Image
           src={category.imageSrc}
           alt={category.name}
@@ -23,7 +23,7 @@ const CategoryCard = ({ category }: { category: Category }) => {
           height={80}
         />
       </div>
-      <h3 className="mt-3 line-clamp-2 text-sm font-semibold text-black sm:text-base">{category.name}</h3>
+      <h3 className="mt-3 line-clamp-2 text-sm font-semibold text-heading sm:text-base">{category.name}</h3>
     </Link>
   );
 };

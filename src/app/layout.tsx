@@ -6,11 +6,14 @@ import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/features/cart/providers/CartProvider";
 import { ToastProvider } from "@/features/notifications/providers/ToastProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Kray E-commerce",
-  description: "A white-label e-commerce boilerplate.",
+  description: "A modern e-commerce web app.",
 };
 
 export default function RootLayout({
@@ -20,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.variable}>
         <ToastProvider>
           <CartProvider>
             <Header />
