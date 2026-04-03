@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Menu, MapPin, Search, ShoppingCart, TicketPercent, User, Wallet } from 'lucide-react';
+import { useCart } from '@/features/cart/providers/CartProvider';
 import { routes } from '@/lib/routes';
-import { useCart } from '../providers/CartProvider';
 
 const Header = () => {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);

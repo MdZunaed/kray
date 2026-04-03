@@ -2,11 +2,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/config/site';
+import { useCart } from '@/features/cart/providers/CartProvider';
+import { getProductSlugFromHref } from '@/features/catalog/utils/product';
+import { useToast } from '@/features/notifications/providers/ToastProvider';
 import { useState } from 'react';
 import QuantityStepper from './QuantityStepper';
-import { useCart } from '@/components/providers/CartProvider';
-import { useToast } from '@/components/providers/ToastProvider';
-import { getProductSlugFromHref } from '@/lib/product';
 
 export type Product = {
   id: number;

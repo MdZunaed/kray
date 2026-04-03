@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShieldCheck, ShoppingCart, Star, Truck } from 'lucide-react';
 import ProductCard from '@/components/ui/ProductCard';
-import { useCart } from '@/components/providers/CartProvider';
-import { useToast } from '@/components/providers/ToastProvider';
 import { siteConfig } from '@/config/site';
+import { useCart } from '@/features/cart/providers/CartProvider';
+import { useToast } from '@/features/notifications/providers/ToastProvider';
 import { getParamSlug, routes } from '@/lib/routes';
 import QuantityStepper from '@/components/ui/QuantityStepper';
 

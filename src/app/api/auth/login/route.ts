@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
-import { comparePassword, generateToken } from '@/services/auth.service';
+import { comparePassword, generateToken } from '@/features/auth/services/auth.service';
 
 export async function POST(request: Request) {
   try {

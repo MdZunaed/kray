@@ -154,6 +154,14 @@ Notes:
 - `components/` should stay mostly presentational
 - route handlers should be thin
 
+Current direction already adopted in this repo:
+
+- cart state lives under `src/features/cart/...`
+- toast or notification logic lives under `src/features/notifications/...`
+- catalog-specific helpers should live under `src/features/catalog/...`
+- auth domain logic should live under `src/features/auth/...`
+- older paths may temporarily exist as compatibility re-exports during refactors, but new code should prefer `src/features/...`
+
 ## Multi-Client Configuration Strategy
 
 The blueprint should support per-client customization without restructuring the codebase each time.
@@ -385,4 +393,3 @@ When architectural decisions conflict:
 1. project owner instruction wins
 2. this blueprint file is the repo-level architectural guide
 3. implementation details should follow the loose-coupling principle
-

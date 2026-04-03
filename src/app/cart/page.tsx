@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2 } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import { useCart } from '@/features/cart/providers/CartProvider';
 import { routes } from '@/lib/routes';
 import QuantityStepper from '@/components/ui/QuantityStepper';
-import { useCart } from '@/components/providers/CartProvider';
 
 export default function CartPage() {
   const { items: cartItems, totalPrice, updateItemQuantity, removeItem } = useCart();
